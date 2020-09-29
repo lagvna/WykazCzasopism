@@ -70,7 +70,7 @@ def save_results(results):
 		try:
 			choice = str(input("Czy chcesz zapisać dane do pliku? (t/n): \n"))
 			
-			if choice == 't':
+			if choice.lower() == 't':
 				filename = input("Podaj nazwę pliku, w którym chciałbyś zapisać wyniki: \n")
 				file_to_output = open(filename+'.csv','w',newline='')
 				csv_writer = csv.writer(file_to_output,delimiter=',')
@@ -81,7 +81,7 @@ def save_results(results):
 				file_to_output.close()
 				break
 
-			if choice == 'n':
+			if choice.lower() == 'n':
 				break
 		except:
 			print('Nieprawodłowe polecenie\n')
