@@ -8,7 +8,7 @@ def print_help():
 	print("Pamiętaj o dwukropkach i przecinkach.\n")
 
 # function allowing to find journals via their titles
-# the search is done through a VenueSearcher class, which creates Venue objects denoting journals
+# search is done through a VenueSearcher class, which creates Venue objects denoting journals
 # and then returns matches as a list of results to be printed 
 def search_venue():
 	try:
