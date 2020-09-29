@@ -1,5 +1,6 @@
 class Venue:
-	categories_dict = {'8':'archeologia',
+	categories_dict = {
+					'8':'archeologia',
 					'9':'filozofia',
 					'10':'historia',
 					'11':'językoznawstwo',
