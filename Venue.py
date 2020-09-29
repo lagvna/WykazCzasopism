@@ -1,3 +1,12 @@
+# Venue class for creating journal objects described by appropriate attributes:
+# - title
+# - issn
+# - e-issn
+# - score
+# - category
+# Since there are not so many categories in the MNiSW journal list, they were created manually as a dictionary,
+# from which objects can extract categories to which they belong
+
 class Venue:
 	categories_dict = {
 		'8':'archeologia',

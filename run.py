@@ -1,31 +1,41 @@
 from VenueSearcher import *
 import csv
-from matplotlib import pyplot as plt 
-import numpy as np 
 
 def print_help():
 	print("POMOC\n")
 	print("Składnia polecenia filtrowania to:")
-	print("-t:nazwa, -s:punktacja, -c:kategoria\n")
+	print("-t:nazwa, -s:punktacja, -c:kategoria")
+	print("Pamiętaj o dwukropkach i przecinkach.\n")
 
+# function allowing to find journals via their titles
+# the search is done through a VenueSearcher class, which creates Venue objects denoting journals
+# and then returns matches as a list of results to be printed 
 def search_venue():
 	try:
 		title = input("Podaj tytuł czasopisma, którego szukasz: ")
+
 		searcher = VenueSearcher("resources/wykaz.csv")
 		results = searcher.search_by_title(title)
 
-		print(f"Znaleziono {len(results)} pozycje: \n")
+		print("Znaleziono {} pozycje: \n".format(len(results)))
 		for item in results:
 			print(item.title)
-			print(f"ISSN: {item.issn}")
-			print(f"E-ISSN: {item.eissn}")
-			print(f"Punktacja: {item.score}")
-			print(f"Kategoria: {item.category}")
+			print("ISSN: {}".format(item.issn))
+			print("E-ISSN: {}".format(item.eissn))
+			print("Punktacja: {}".format(item.score))
+			print("Kategoria: {}".format(item.category))
 			print()
 	except:
 		print("Nie znaleziono podanego czasopisma\n")
 
 	
+# function for filtering journals according to three parameters:
+# - title
+# - score
+# - category
+# it's possible to filter with only a subset of parameters
+# the filtering command is parsed into a dictionary and then passed to the VenueSearcher object, which performs the search
+# and returns a list of Venue objects denoting journals 
 def filter_venues():
 	try:
 		command = input("Wpisz polecenie filtrowania wyników: \n")
@@ -37,38 +47,49 @@ def filter_venues():
 		searcher = VenueSearcher("resources/wykaz.csv")
 		results = searcher.search_by_params(params_dict)
 		
-		print(f"Znaleziono {len(results)} pozycje: \n")
-		filename = input("Podaj nazwę pliku, w którym chciałbyś zapisać wyniki: \n")
-		file_to_output = open(filename+'.csv','w',newline='')
-		csv_writer = csv.writer(file_to_output,delimiter=',')
+		print("Znaleziono {} pozycje: \n".format(len(results)))
+
 		
 		for item in results:
-			csv_writer.writerow([item.title,item.issn,item.eissn,item.score,item.category])
-
 			print(item.title)
-			print(f"ISSN: {item.issn}")
-			print(f"E-ISSN: {item.eissn}")
-			print(f"Punktacja: {item.score}")
-			print(f"Kategoria: {item.category}")
+			print("ISSN: {}".format(item.issn))
+			print("E-ISSN: {}".format(item.eissn))
+			print("Punktacja: {}".format(item.score))
+			print("Kategoria: {}".format(item.category))
 			print()
+		save_results(results)
 
-		file_to_output.close()
 	except:
 		print("Nieprawidłowe polecenie\n")
 
 
+# function for saving (if desired) filterd results from filter_venues() function into a csv file
+def save_results(results):
 
-def draw_chart():
+	while True:
+		try:
+			choice = str(input("Czy chcesz zapisać dane do pliku? (t/n): \n"))
+			
+			if choice == 't':
+				filename = input("Podaj nazwę pliku, w którym chciałbyś zapisać wyniki: \n")
+				file_to_output = open(filename+'.csv','w',newline='')
+				csv_writer = csv.writer(file_to_output,delimiter=',')
 
-	# Creating dataset 
-	cars = ['AUDI', 'BMW', 'FORD', 
-        		'TESLA', 'JAGUAR', 'MERCEDES'] 
-	data = [23, 17, 35, 29, 12, 41] 
+				for item in results:
+					csv_writer.writerow([item.title,item.issn,item.eissn,item.score,item.category])
 
-	fig = plt.figure(figsize =(10, 7)) 
-	plt.pie(data, labels = cars) 
-  
-	plt.savefig("mygraph.png")
+				file_to_output.close()
+				break
+
+			if choice == 'n':
+				break
+		except:
+			print('Nieprawodłowe polecenie\n')
+
+			
+
+######### Main part ###########
+# this is just a simple text menu allowing to switch between functions and terminate
 
 print("Program wspomagający wyszukiwanie informacji w aktualnym wykazie czasopism punktowanych MNiSW\n")
 
@@ -86,7 +107,7 @@ while True:
 		if choice == 4:
 			break
 		elif choice == 3:
-			draw_chart()
+			print_help()
 		elif choice == 2:
 			filter_venues()
 		elif choice == 1:

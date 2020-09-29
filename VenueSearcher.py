@@ -1,11 +1,16 @@
 import csv
 from Venue import *
 
+# VenueSearcher class allows to open the MNiSW journal list file, search for results accordingly and then return
+# results as objects which can be easily displayed
+
 class VenueSearcher:
 
 	def __init__(self, path):
 		self.path = path
 
+	# method for finding journals by title
+	# it returns all journals containing the provided title (perhaps as a substring)
 	def search_by_title(self, title):
 		try:
 			data = open(self.path, encoding="utf-8")
@@ -23,6 +28,8 @@ class VenueSearcher:
 
 		return results
 
+
+	# this method loads the entire MNiSW journal list into the class, so they can be handled later
 	def load_everything(self):
 		try:
 			data = open(self.path, encoding="utf-8")
@@ -38,6 +45,8 @@ class VenueSearcher:
 				#print(results)
 		return results
 
+	# method for searching for results according to the given parameters
+	# it takes the entire list of journals and then drops the ones which don't match with the given filters
 	def search_by_params(self, params_dict):
 		results = self.load_everything()
 
