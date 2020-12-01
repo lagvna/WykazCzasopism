@@ -1,1 +1,0 @@
--t:distributed computing, -c:informatyka, -s:70
